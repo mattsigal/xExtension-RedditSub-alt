@@ -115,6 +115,25 @@ class RedditSubExtension extends Minz_Extension {
 		return null;
 	}
 
+	protected function isPlainTitleContext(): bool {
+		// 1. Check if request is to an API endpoint (Google Reader API, Fever API, etc.)
+		$scriptName = (string) ($_SERVER['SCRIPT_NAME'] ?? '');
+		$requestUri = (string) ($_SERVER['REQUEST_URI'] ?? '');
+		if (strpos($scriptName, '/api/') !== false || strpos($requestUri, '/api/') !== false) {
+			return true;
+		}
+
+		// 2. Check for RSS / XML export actions
+		if (class_exists('Minz_Request', false)) {
+			$action = Minz_Request::actionName();
+			if ($action === 'rss' || $action === 'export') {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public function renderEntry(?FreshRSS_Entry $entry): ?FreshRSS_Entry {
 		if ($entry === null) {
 			return null;
@@ -139,13 +158,15 @@ class RedditSubExtension extends Minz_Extension {
 		// Ensure space between prefix and title
 		$spacer = (substr($formattedPrefix, -1) === ' ') ? '' : ' ';
 
-		if ($this->getUseStyling() || $this->getEnableCustomColor()) {
-			$prefixHtml = '<span class="reddit_sub_prefix">' . htmlspecialchars($formattedPrefix, ENT_QUOTES, 'UTF-8') . '</span>' . $spacer;
+		if ($this->isPlainTitleContext()) {
+			$prefix = $formattedPrefix . $spacer;
+		} elseif ($this->getUseStyling() || $this->getEnableCustomColor()) {
+			$prefix = '<span class="reddit_sub_prefix">' . htmlspecialchars($formattedPrefix, ENT_QUOTES, 'UTF-8') . '</span>' . $spacer;
 		} else {
-			$prefixHtml = htmlspecialchars($formattedPrefix, ENT_QUOTES, 'UTF-8') . $spacer;
+			$prefix = htmlspecialchars($formattedPrefix, ENT_QUOTES, 'UTF-8') . $spacer;
 		}
 
-		$entry->_title($prefixHtml . $originalTitle);
+		$entry->_title($prefix . $originalTitle);
 		return $entry;
 	}
 }
