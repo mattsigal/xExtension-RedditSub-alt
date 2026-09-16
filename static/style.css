@@ -1,9 +1,7 @@
-.subreddit_name {
-    display: inline-block;
-    width: 100px;
-    vertical-align: middle;
-    overflow: hidden;
-    font-weight: lighter;
-    color: #555;
-    font-size: 0.7em;
+.reddit_sub_prefix {
+	font-weight: 600 !important;
+	opacity: 0.85;
+	margin-right: 4px;
+	letter-spacing: 0.01em;
 }
+

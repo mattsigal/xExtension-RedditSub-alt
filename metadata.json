@@ -1,8 +1,8 @@
 {
-	"name": "RedditSub",
-	"author": "Jim Derry",
-	"description": "Show the Reddit Subreddit Name",
-	"version": 1.0,
+	"name": "Reddit Sub",
+	"author": "Antigravity & Matt Sigal (forked from jesuslop & Jim Derry)",
+	"description": "Prefixes Reddit post titles with their subreddit name (e.g. /r/jellyfin/ - )",
+	"version": "1.2.0",
 	"entrypoint": "RedditSub",
 	"type": "user"
 }

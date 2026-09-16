@@ -1,35 +1,36 @@
-This is a 2024 fork of Jim Derry's [xExtension-RedditSub](https://github.com/balthisar/xExtension-RedditSub).
+# xExtension-RedditSub
 
-* Alpha version of fork
-* Use at your own risk
-* No maintenance commitment (specific proposed fixes could be considered)
+A modern extension for [FreshRSS](https://github.com/FreshRSS/FreshRSS) that prefixes Reddit entries with their subreddit name (e.g. `/r/jellyfin/ - `).
 
-Entry titles are prefixed by subreddit name `/r/something`. 
+Forked and modernized from `jesuslop/xExtension-RedditSub-alt` and `balthisar/xExtension-RedditSub`.
 
-Non Reddit entries show the domain name of the link target (as shown here in red underline):
+## Features
 
-![image](https://github.com/user-attachments/assets/b6cf110c-d7e3-413c-91b0-542ecb55320b)
+- **Strict Reddit Scoping**: Only modifies Reddit entries (via permalinks, tags, multireddit categories, or content). Non-Reddit feeds are left completely untouched.
+- **No Text Truncation**: Unlike older forks that clipped subreddit names at a fixed 100px width, names are fully displayed with proper inline baseline alignment.
+- **Theme-Adaptive & Custom Styling**: Uses opacity and weight adjustments to look crisp across dark, light, and custom themes, with an optional custom color picker (e.g. Reddit Orange `#ff4500`).
+- **Configurable Prefix**: Easily customize the format string via the FreshRSS Extensions configuration UI (e.g., `/r/%s/ - `, `[r/%s] `, or `r/%s: `).
+- **PHP 8.4 & FreshRSS 1.30+ Compatible**: Type-safe implementation adhering to modern FreshRSS extension specifications.
 
-Proposed CSS snippet (for FreshRSS core extension 'custom CSS'):
+## Configuration
 
+Navigate to **FreshRSS Settings -> Extensions -> RedditSub -> Configure**:
+
+- **Prefix Format**: Defines the prefix template. Use `%s` where the subreddit name should be inserted (Default: `/r/%s/ - `).
+- **Style Subreddit Prefix**: Toggle subtle emphasis and theme-adaptive styling.
+- **Subreddit Text Color**: Enable a custom accent color for the subreddit text using an interactive color picker or hex code (e.g. `#ff4500`).
+
+## Installation
+
+Clone or copy this directory to your FreshRSS extensions folder:
+
+```bash
+cd /path/to/FreshRSS/extensions/
+git clone https://github.com/mattsigal/xExtension-RedditSub-alt.git xExtension-RedditSub
 ```
-.flux .flux_header .item.website .websiteName,
-.flux .flux_header .item .title {
-    font-size: 1.4em;
-    padding: 3px 15px;
-}
-```
 
-Custom prefix width in pixels, overflow text is clipped. You can tweak the prefix style in `static/style.css`.
+Then enable **RedditSub** under **Settings -> Extensions** in the FreshRSS web interface.
 
-CAVEATS:
+## License
 
-When show site icon option is set, the alignement is not good.
-
-==============================================
-
-Extension for FreshRSS (https://github.com/FreshRSS)
-
-**v1.0**
-
-Adds the Reddit Subreddit name to the title of the entry in a subdued manner.
+MIT License. See [LICENSE](LICENSE) for details.
